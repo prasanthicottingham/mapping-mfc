@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta property="og:title" content="Leaflet and Google Form Participatory Mapping" />
   <meta property="og:type" content="website" />
-  <meta property="og:description" content="A web app that uses Google Forms and Leaflet to collect data for participatory mapping using a web browser." />
+  <meta property="og:description" content="A map for the Mutually Fulfilling Cities Survey." />
   <!--Bootstrap for form-->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
   <!--leaflet-->
@@ -55,7 +55,7 @@
       top: 300px;
     }
     h3{
-      color: #0b3e6b !important;
+      color: #2ea6de !important;
     }
     #instructions {
       position: absolute;
@@ -87,43 +87,43 @@
     max-width: 150px;
   }
 
-  #one{    background: url('./icons/exercise2.png') #2e6da4;
+  #one{    background: url('./icons/love.png') #2e6da4;
     background-position: 0px 2px;
     background-repeat: no-repeat;
     background-size: 34px 34px;
     padding-left: 41px;
   }
-    #one:hover{    background: url('./icons/exercise2.png') #286090;
+    #one:hover{    background: url('./icons/neutral.png') #286090;
     background-position: 5px 2px;
     background-repeat: no-repeat;
     background-size: 34px 34px;
     padding-left: 41px;
   }
-  #two{    background: url('./icons/groceries2.png') #2e6da4;
+  #two{    background: url('./icons/neutral.png') #2e6da4;
     background-position: 0px 2px;
     background-repeat: no-repeat;
     background-size: 34px 34px;
     padding-left: 41px;
   }
-    #two:hover{    background: url('./icons/groceries2.png') #286090;
+    #two:hover{    background: url('./icons/neutral.png') #286090;
     background-position: 5px 2px;
     background-repeat: no-repeat;
     background-size: 34px 34px;
     padding-left: 41px;
   }
-      #two:active{    background: url('./icons/groceries2.png') #286090;
+      #two:active{    background: url('./icons/neutral.png') #286090;
     background-position: 5px 2px;
     background-repeat: no-repeat;
     background-size: 34px 34px;
     padding-left: 41px;
   }
-    #three{    background: url('./icons/healthcare2.png') #2e6da4;
+    #three{    background: url('./icons/avoid.png') #2e6da4;
     background-position: 0px 2px;
     background-repeat: no-repeat;
     background-size: 34px 34px;
     padding-left: 41px;
   }
-    #three:hover{    background: url('./icons/healthcare2.png') #286090;
+    #three:hover{    background: url('./icons/avoid.png') #286090;
     background-position: 5px 2px;
     background-repeat: no-repeat;
     background-size: 34px 34px;
@@ -174,7 +174,7 @@
       maxZoom: 19,
     	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> | &copy; <a href="https://carto.com/attribution">CARTO</a> | <a href="https://www.iconfinder.com/">Icons</a>'
     }).addTo(map);
-    map.setView([41.7656, -72.7162], 16);
+    map.setView([42.37083185, -71.106332908], 16);
 
     var marker, lat, lng; //create variables used throughout the map
 
@@ -203,24 +203,24 @@
 
     // Custom map markers
     var exercise = L.icon({
-      name: 'exercise',
-      iconUrl: 'icons/exercise.png',
+      name: 'Love!',
+      iconUrl: 'icons/love.png',
       iconSize:     [30, 30], // size of the icon
       iconAnchor:   [15, 15], // point of the icon which will correspond to marker's location
       popupAnchor:  [0, 0] // point from which the popup should open relative to the iconAnchor
     });
 
     var groceries = L.icon({
-      name: 'groceries',
-      iconUrl: 'icons/groceries.png',
+      name: 'Go, but could be better',
+      iconUrl: 'icons/neutral.png',
       iconSize:     [30, 30], // size of the icon
       iconAnchor:   [15, 15], // point of the icon which will correspond to marker's location
       popupAnchor:  [0, 0] // point from which the popup should open relative to the iconAnchor
     });
 
     var healthcare = L.icon({
-      name: 'healthcare',
-      iconUrl: 'icons/healthcare.png',
+      name: 'Avoid if possible',
+      iconUrl: 'icons/avoid.png',
       iconSize:     [30, 30], // size of the icon
       iconAnchor:   [15, 15], // point of the icon which will correspond to marker's location
       popupAnchor:  [0, 0] // point from which the popup should open relative to the iconAnchor
@@ -231,11 +231,11 @@
     // the type_number is the current_marker_type
     function iconpicker(type_number){
       if(type_number == "one"){
-        return exercise
+        return love
       }else if (type_number == "two"){
-        return groceries
+        return neutral
       }else if (type_number == "three"){
-        return healthcare
+        return avoid
       }
     }
 
@@ -362,8 +362,6 @@
   </script>
 <!-- The below form is hidden and located behind the map. It gets filled in when the map's submit button is pushed -->
 <form action="https://docs.google.com/forms/d/e/1FAIpQLSfgy2P7FZNbFn1_DdTN6j7UuTyT_F_RgKS4u0-wFeS2fstj3g/formResponse" id = "googleformform">
-<label for="a">Number ip address/short answer</label>
-<textarea name="entry.1187308881" id="ipaddr"/></textarea>
 
 <label for="a">Number a/1</label>
 <textarea name="entry.1594844786" id="aone"/></textarea>
@@ -380,3 +378,4 @@
 </body>
 
 </html>
+
