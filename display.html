@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <title>Mutually Fulfilling Cities Survey - Mapping</title>
   <meta name="viewport" content="width=device-width, initial-scale=30.0, maximum-scale=30.0, user-scalable=no">
-  <meta property="og:title" content="Mapping places that bring caregivers' joy." />
+  <meta property="og:title" content="Mapping places that uplift and fulfill caregivers" />
   <meta property="og:type" content="website" />
-  <meta property="og:description" content="Mapping places that bring caregivers' joy." />
+  <meta property="og:description" content="Mapping places that uplift and fulfill caregivers." />
 <!--Bootstrap for form-->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
   <!--leaflet-->
@@ -88,14 +88,6 @@
       popupAnchor:  [0, 0] // point from which the popup should open relative to the iconAnchor
     });
 
-    var groceries = L.icon({
-      name: 'Go, but it could be improved',
-      iconUrl: 'icons/neutral.png',
-      iconSize:     [30, 30], // size of the icon
-      iconAnchor:   [15, 15], // point of the icon which will correspond to marker's location
-      popupAnchor:  [0, 0] // point from which the popup should open relative to the iconAnchor
-    });
-
     var healthcare = L.icon({
       name: 'Avoid if possible.',
       iconUrl: 'icons/avoid.png',
@@ -110,10 +102,8 @@
     function iconpicker(type_number){
       if(type_number == "one"){
         return love
-      }else if (type_number == "two"){
-        return neutral
       }else if (type_number == "three"){
-        return avoid
+        return dislike
       }
     }
 
@@ -227,4 +217,5 @@
     </script>
 
 </body>
+
 
