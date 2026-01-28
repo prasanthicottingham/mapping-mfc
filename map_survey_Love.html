@@ -437,7 +437,7 @@
     markerComments = {} // Store comments for each marker
     i = -1
     
-    current_marker_type = "love" // Default to love marker
+    current_marker_type = "one" // Default to love marker
     
     // Custom map marker
     var love = L.icon({
@@ -452,7 +452,12 @@
       if(type_number == "one"){
         return love
       }
-    }
+     // Fallback
+  return love;
+}
+// Test icon is defined (check console)
+console.log('Love icon defined:', love);
+console.log('Icon picker works:', iconpicker("one"));
 
     // SEND DATA TO QUALTRICS - called automatically when data changes
     function sendDataToQualtrics() {
