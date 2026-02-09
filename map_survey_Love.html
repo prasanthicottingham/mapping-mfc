@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Participatory Mapping - Love</title>
+  <title>Participatory Mapping - Dislike</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta property="og:title" content="Leaflet and Google Form Participatory Mapping" />
   <meta property="og:type" content="website" />
@@ -36,11 +36,12 @@
   
   #map { 
     position: absolute;
-    top: 56px;
+    top: 56px; /* Header Height */
     bottom: 0px;
     width: 100%;
   }
   
+  /* Desaturate only the basemap tiles */
   #map .leaflet-tile-pane {
     filter: saturate(50%) contrast(0.9);
   }
@@ -128,22 +129,23 @@
   }
 
   #one {
-    background: url('./icons/love2.png') #1f7a53;
+    background: url('./icons/love2.png') #f766d0;
     background-position: 5px center;
     background-repeat: no-repeat;
     background-size: 35px 26px;
     padding-left: 45px;
     text-align: left;
   }
-
+  
   #one:hover {
-    background: url('./icons/love2.png') #1f7a53;
+    background: url('./icons/love2.png') #f766d0;
     background-position: 5px center;
     background-repeat: no-repeat;
     background-size: 35px 26px;
     padding-left: 45px;
   }
   
+  /* Style for text input in popup */
   .reason-input {
     width: 100%;
     padding: 8px;
@@ -157,10 +159,11 @@
     display: block;
     margin-top: 5px;
     font-weight: bold;
-    color: #00698E;
+    color: #26a674;
     font-size: 14px;
   }
   
+  /* Status indicator */
   #statusIndicator {
     position: fixed;
     top: 60px;
@@ -182,15 +185,201 @@
     border-top: 1px solid #ddd;
   }
 
+  /* ============================================
+     MOBILE RESPONSIVE STYLES
+     ============================================ */
+  
   @media only screen and (max-width: 768px) {
-    .container { padding: 5px 8px; }
-    h3 { font-size: 14px; white-space: normal !important; }
-    #map { top: 45px; }
-    #pin_menu { max-width: 140px; top: 50px; right: 5px; padding: 5px 6px; font-size: 12px; }
-    .btn { padding: 6px; font-size: 12px; }
-    #one { background-size: 28px 21px; padding-left: 35px; }
-    #instructions { max-width: 95%; max-height: 85vh; padding: 12px; font-size: 14px; }
-    #statusIndicator { top: 50px; font-size: 13px; padding: 6px 12px; }
+    
+    /* Smaller header on mobile */
+    .container {
+      padding: 5px 8px;
+    }
+    
+    h3 {
+      font-size: 14px;
+      white-space: normal !important;
+      overflow: visible !important;
+      text-overflow: clip !important;
+    }
+    
+    /* Adjust map top position for smaller header */
+    #map {
+      top: 45px;
+    }
+    
+    /* Pin menu adjustments for mobile */
+    #pin_menu {
+      max-width: 140px;
+      top: 50px;
+      right: 5px;
+      padding: 5px 6px;
+      font-size: 12px;
+    }
+    
+    .btn {
+      padding: 6px;
+      font-size: 12px;
+      margin-bottom: 3px !important;
+      margin-top: 3px !important;
+    }
+    
+    #one {
+      background-size: 28px 21px;
+      padding-left: 35px;
+    }
+    
+    #one:hover {
+      background-size: 28px 21px;
+      padding-left: 35px;
+    }
+    
+    /* Instructions box for mobile */
+    #instructions {
+      max-width: 95%;
+      max-height: 85vh;
+      padding: 12px;
+      font-size: 14px;
+    }
+    
+    #instructions p {
+      font-size: 14px;
+      margin-bottom: 10px !important;
+    }
+    
+    #theOK {
+      width: 100%;
+      max-width: none;
+    }
+    
+    /* Larger touch targets for mobile */
+    .leaflet-popup-content {
+      font-size: 15px;
+    }
+    
+    .reason-input {
+      font-size: 16px; /* Prevents auto-zoom on iOS */
+      padding: 10px;
+    }
+    
+    .popup-label {
+      font-size: 15px;
+    }
+    
+    /* Status indicator positioning */
+    #statusIndicator {
+      top: 50px;
+      font-size: 13px;
+      padding: 6px 12px;
+    }
+    
+    /* Make popups fit better on small screens */
+    .leaflet-popup {
+      max-width: 85vw !important;
+    }
+    
+    hr {
+      margin: 6px 0;
+    }
+  }
+  
+  /* Extra small phones */
+  @media only screen and (max-width: 480px) {
+    
+    h3 {
+      font-size: 12px;
+    }
+    
+    #map {
+      top: 40px;
+    }
+    
+    #pin_menu {
+      max-width: 120px;
+      top: 45px;
+      padding: 4px 5px;
+      font-size: 11px;
+    }
+    
+    .btn {
+      padding: 5px;
+      font-size: 11px;
+    }
+    
+    #one {
+      background-size: 24px 18px;
+      padding-left: 30px;
+    }
+    
+    #one:hover {
+      background-size: 24px 18px;
+      padding-left: 30px;
+    }
+    
+    #instructions {
+      padding: 10px;
+      font-size: 13px;
+    }
+    
+    #instructions p {
+      font-size: 13px;
+    }
+  }
+  
+  /* Landscape orientation on mobile */
+  @media only screen and (max-height: 500px) and (orientation: landscape) {
+    
+    .container {
+      padding: 3px 8px;
+    }
+    
+    h3 {
+      font-size: 12px;
+    }
+    
+    #map {
+      top: 35px;
+    }
+    
+    #pin_menu {
+      top: 40px;
+      max-width: 100px;
+      padding: 3px 4px;
+    }
+    
+    .btn {
+      padding: 4px;
+      font-size: 10px;
+    }
+    
+    #instructions {
+      max-height: 90vh;
+      padding: 10px;
+      font-size: 12px;
+    }
+  }
+  
+  /* Improve touch interactions */
+  @media (hover: none) and (pointer: coarse) {
+    /* This targets touch devices */
+    
+    .btn {
+      min-height: 44px; /* Apple's recommended touch target */
+      padding: 10px;
+    }
+    
+    #theX {
+      font-size: 28px;
+      padding: 5px;
+    }
+    
+    /* Larger tap target for leaflet controls */
+    .leaflet-control-zoom a {
+      width: 40px !important;
+      height: 40px !important;
+      line-height: 40px !important;
+      font-size: 20px !important;
+    }
   }
 </style>
 </head>
@@ -200,6 +389,7 @@
     <h3 style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">WHERE DO YOU LOVE GOING WITH YOUR KIDS IN THE BOSTON AREA?</h3>
   </div>
   
+  <!-- Status indicator -->
   <div id="statusIndicator">✓ Saved</div>
   
   <div class="map">
@@ -207,7 +397,9 @@
   </div>
   
   <div id="pin_menu">
-    <a id="destroy" onclick="destroy_all()" class="btn center-block" style="background-color:#00698E; color:#fff;">
+    <a id="destroy" onclick="destroy_all()"
+       class="btn center-block"
+       style="background-color:#00698E; color:#fff;">
        Clear all markers
     </a>
   </div>
@@ -215,7 +407,7 @@
   <div id="instructions">
     <strong>TELL ME ABOUT THE PLACES YOU LOVE GOING WITH YOUR KIDS.</strong><br><br>
     <div style="text-align:left; margin:10px 0; padding-left:0;">
-      <p style="margin-bottom:14px;">Click on the places that you go with your kids that make you feel uplifted, happy, and fulfilled (select as many as you want).</p>
+      <p style="margin-bottom:14px;">Click on the places that you go with your kids that make you feel <strong>happy, energized, or uplifted</strong> (select as many as you want).</p>
       <p style="margin-bottom:14px;">Your markers are <strong>automatically saved</strong> as you place them. If you delete them, the information will be removed from the survey.</p>
       <p style="margin-bottom:14px;">Click on markers to add comments, delete them, or drag to move them.</p>
       <p style="margin-bottom:0px; font-style:italic; color:#666;">Once finished, just click "Next" in the survey.</p>
@@ -226,180 +418,188 @@
   </div>
 
   <script>
-    var map = L.map('map');
+  var map = L.map('map'); //Initialize the map
 
-    var OpenStreetMap_Mapnik = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      minZoom: 4,
-      maxZoom: 19,
-      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
-    
-    map.setView([42.37083185, -71.106332908], 16);
+  // Add basemap
+  var OpenStreetMap_Mapnik = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    minZoom: 4,
+    maxZoom: 19,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
+  
+  map.setView([42.37083185, -71.106332908], 16);
 
-    var marker, lat, lng;
-    var markers = [];
-    var markerComments = {};
-    var i = -1;
-    var current_marker_type = "one";
-    
-    var love = L.icon({
-      name: 'Love',
-      iconUrl: 'icons/love2.png',
-      iconSize: [60, 40], 
-      iconAnchor: [30, 20],
-      popupAnchor: [0, -20] 
-    });
-
-    function iconpicker(type_number){
-      if(type_number == "one"){ return love; }
-      return love;
-    }
-
-    // ====== FIXED: SEND DATA TO QUALTRICS ======
-    function sendDataToQualtrics() {
-      var coordinates = [];
-      var comments = [];
-      
-      // Collect all current markers
-      for(var _i = 0; _i < markers.length; _i++){
-        if(markers[_i]) {
-          var latlng = markers[_i].getLatLng();
-          coordinates.push([latlng.lat, latlng.lng]); // Simple array format
-          comments.push(markerComments[_i] || ""); // Simple string
-        }
-      }
-      
-      // Send to parent window (Qualtrics) - NO JSON.stringify!
-      window.parent.postMessage({
-        type: 'love_map_data',
-        coordinates: coordinates,  // Send as array, not string
-        comments: comments,        // Send as array, not string
-        marker_count: coordinates.length,
-        timestamp: new Date().toISOString()
-      }, '*');
-      
-      console.log('✓ Data sent to Qualtrics:', {
-        markers: coordinates.length,
-        coordinates: coordinates,
-        comments: comments
-      });
-      
-      showSavedIndicator();
-    }
-
-    // Listen for requests from Qualtrics
-    window.addEventListener('message', function(event) {
-      if(event.data && event.data.type === 'request_data') {
-        console.log('📨 Data requested by Qualtrics');
-        sendDataToQualtrics();
-      }
-    });
-
-    // Auto-send every 5 seconds
-    setInterval(function() {
-      if(markers.length > 0) {
-        sendDataToQualtrics();
-      }
-    }, 5000);
-
-    function showSavedIndicator() {
-      var indicator = document.getElementById('statusIndicator');
-      indicator.style.display = 'block';
-      setTimeout(function() {
-        indicator.style.display = 'none';
-      }, 1500);
-    }
-
-    function destroy_self(this_marker_id){
-      map.removeLayer(markers[this_marker_id]);
-      delete markerComments[this_marker_id];
-      markers[this_marker_id] = null;
-      sendDataToQualtrics();
-    }
-
-    function destroy_all(){
-      for(var _i = 0; _i < markers.length; _i++){
-        if(markers[_i]) {
-          map.removeLayer(markers[_i]);
-        }
-      }
-      markers = [];
-      markerComments = {};
-      sendDataToQualtrics();
-    }
-
-    function saveComment(marker_id) {
-      var commentText = document.getElementById('comment_' + marker_id).value;
-      markerComments[marker_id] = commentText;
-      console.log('Saved comment for marker ' + marker_id + ': ' + commentText);
-      sendDataToQualtrics();
-    }
-
-    function collectData(e) {
-      i += 1;
-      var this_marker_id = i;
-      lat = e.latlng.lat;
-      lng = e.latlng.lng;
-      var type = current_marker_type;
-
-      var popup_text = 
-        '<div style="min-width:200px;">' +
-        '<label class="popup-label">Tell me why you love it:</label>' +
-        '<textarea id="comment_' + this_marker_id + '" class="reason-input" rows="3" placeholder="Type your reason here..."></textarea>' +
-        '<button class="btn btn-sm center-block" style="background-color:#2ea6de; color:#fff; margin-top:5px;" onclick="saveComment(' + this_marker_id + ')">Save Comment</button>' +
-        '<hr style="margin:10px 0;">' +
-        '<button class="btn btn-sm center-block" style="background-color:#ec9035; color:#fff;" onclick="destroy_self(' + this_marker_id + ')">Delete Marker</button>' +
-        '</div>';
-
-      markers[i] = L.marker(e.latlng, {
-        draggable: true,
-        icon: iconpicker(type),
-        type_of_marker: type,
-        this_marker_id: this_marker_id
-      }).addTo(map)
-      .bindPopup(popup_text, {
-      maxWidth: 300,
-      autoClose: false,
-      closeOnClick: false
-});
-
-// Force popup open with multiple attempts for mobile
-setTimeout(function() {
-  markers[i].openPopup();
-  // Double-check after another brief delay
+  // CRITICAL: Force map to recalculate size in iframe
   setTimeout(function() {
-    if (!markers[i].isPopupOpen()) {
-      markers[i].openPopup();
+    map.invalidateSize();
+    console.log('Map size invalidated - attempt 1');
+  }, 100);
+
+  setTimeout(function() {
+    map.invalidateSize();
+    console.log('Map size invalidated - attempt 2');
+  }, 500);
+
+  setTimeout(function() {
+    map.invalidateSize();
+    console.log('Map size invalidated - attempt 3');
+  }, 1500);
+
+  // Invalidate on window resize
+  window.addEventListener('resize', function() {
+    map.invalidateSize();
+  });
+
+  var marker, lat, lng;
+
+  // Markers array and counter
+  markers = []
+  markerComments = {}
+  i = -1
+  
+  current_marker_type = "one"
+  
+  // Custom map marker
+  var love = L.icon({
+    name: 'Love',
+    iconUrl: 'icons/love2.png',
+    iconSize: [60, 40], 
+    iconAnchor: [30, 20],
+    popupAnchor: [0, -20] 
+  });
+
+  function iconpicker(type_number){
+    if(type_number == "one"){
+      return love
     }
-  }, 200);
-}, 50);
+  }
 
-      sendDataToQualtrics();
-
-      markers[i].on('dragend', function(event) {
-        sendDataToQualtrics();
-      });
-    }
-
-    map.on('click', function(e) {
-      collectData(e);
-    });
-
-    $(".theX").click(function(){
-      $("#instructions").hide();
-    });
-
-    // Mobile improvements
-    (function() {
-      var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-      if(isMobile) {
-        console.log('Mobile device detected');
-        map.zoomControl.setPosition('bottomright');
+  // SEND DATA TO QUALTRICS
+  function sendDataToQualtrics() {
+    var coordinates = [];
+    var comments = [];
+    
+    for(_i = 0; _i < markers.length; _i++){
+      if(markers[_i]) {
+        var latlng = markers[_i].getLatLng();
+        coordinates.push({
+          lat: latlng.lat,
+          lng: latlng.lng,
+          id: _i
+        });
+        
+        var comment = markerComments[_i] || "";
+        comments.push({
+          id: _i,
+          comment: comment
+        });
       }
-      window.addEventListener('orientationchange', function() {
-        setTimeout(function() { map.invalidateSize(); }, 100);
-      });
-    })();
-  </script>
+    }
+    
+    window.parent.postMessage({
+      type: 'dislike_map_data',
+      coordinates: JSON.stringify(coordinates),
+      comments: JSON.stringify(comments),
+      marker_count: coordinates.length,
+      timestamp: new Date().toISOString()
+    }, '*');
+    
+    console.log('✓ Data sent to Qualtrics:', {
+      markers: coordinates.length,
+      coordinates: coordinates,
+      comments: comments
+    });
+    
+    showSavedIndicator();
+  }
+
+  function showSavedIndicator() {
+    var indicator = document.getElementById('statusIndicator');
+    indicator.style.display = 'block';
+    setTimeout(function() {
+      indicator.style.display = 'none';
+    }, 1500);
+  }
+
+  function destroy_self(this_marker_id){
+    map.removeLayer(markers[this_marker_id])
+    delete markerComments[this_marker_id];
+    markers[this_marker_id] = null;
+    sendDataToQualtrics();
+  }
+
+  function destroy_all(){
+    for(_i = 0; _i < markers.length; _i++){
+      if(markers[_i]) {
+        map.removeLayer(markers[_i])
+      }
+    }
+    markers = [];
+    markerComments = {};
+    sendDataToQualtrics();
+  }
+
+  function saveComment(marker_id) {
+    var commentText = document.getElementById('comment_' + marker_id).value;
+    markerComments[marker_id] = commentText;
+    console.log('Saved comment for marker ' + marker_id + ': ' + commentText);
+    sendDataToQualtrics();
+  }
+
+  // Collect data when map is clicked
+  function collectData(e) {
+    i += 1
+    this_marker_id = i
+    lat = e.latlng.lat;
+    lng = e.latlng.lng;
+    type = current_marker_type
+
+    console.log('Marker placed at:', lat, lng); // Debug log
+
+    var popup_text = 
+      '<div style="min-width:200px;">' +
+      '<label class="popup-label">Tell me why you love it:</label>' +
+      '<textarea id="comment_' + this_marker_id + '" class="reason-input" rows="3" placeholder="Type your reason here..."></textarea>' +
+      '<button class="btn btn-sm center-block" style="background-color:#26a674; color:#fff; margin-top:5px;" onclick="saveComment(' + this_marker_id + ')">Save Comment</button>' +
+      '<hr style="margin:10px 0;">' +
+      '<button class="btn btn-sm center-block" style="background-color:#ec9035; color:#fff;" onclick="destroy_self(' + this_marker_id + ')">Delete Marker</button>' +
+      '</div>';
+
+    markers[i] = L.marker(e.latlng, {
+      draggable: true,
+      icon: iconpicker(type),
+      type_of_marker: type,
+      this_marker_id: this_marker_id
+    }).addTo(map)
+    .bindPopup(popup_text, {maxWidth:300})
+    .openPopup();
+
+    sendDataToQualtrics();
+
+    markers[i].on('dragend', function(event) {
+      sendDataToQualtrics();
+    });
+  }
+
+  // Listen for clicks
+  map.on('click', function(e) {
+    console.log('Map clicked!', e.latlng); // Debug log
+    collectData(e);
+  });
+
+  // Close instructions and ensure map is clickable
+  $(".theX").click(function(){
+    $("#instructions").hide();
+    setTimeout(function() {
+      map.invalidateSize();
+      console.log('Map invalidated after closing instructions');
+    }, 100);
+  });
+
+  // Debug: Log when map is ready
+  console.log('Map initialized and ready for clicks');
+</script>
+
 </body>
+
 </html>
