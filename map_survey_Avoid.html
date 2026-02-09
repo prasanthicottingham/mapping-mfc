@@ -129,16 +129,16 @@
   }
 
   #two {
-    background: url('./icons/avoid2.png') #2da7df;
+    background: url('./icons/avoid2.png') #f766d0;
     background-position: 5px center;
     background-repeat: no-repeat;
     background-size: 35px 26px;
     padding-left: 45px;
     text-align: left;
   }
-
+  
   #two:hover {
-    background: url('./icons/avoid2.png') #2da7df;
+    background: url('./icons/avoid2.png') #f766d0;
     background-position: 5px center;
     background-repeat: no-repeat;
     background-size: 35px 26px;
@@ -223,12 +223,12 @@
       margin-bottom: 3px !important;
       margin-top: 3px !important;
     }
-
+    
     #two {
       background-size: 28px 21px;
       padding-left: 35px;
     }
-
+    
     #two:hover {
       background-size: 28px 21px;
       padding-left: 35px;
@@ -386,7 +386,7 @@
 
 <body>
   <div class="container text-center">
-    <h3 style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">WHERE DO YOU AVOID GOING WITH YOUR KIDS IN THE BOSTON AREA?</h3>
+    <h3 style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">WHERE DO YOU DISLIKE GOING WITH YOUR KIDS IN THE BOSTON AREA?</h3>
   </div>
   
   <!-- Status indicator -->
@@ -405,9 +405,9 @@
   </div>
 
   <div id="instructions">
-    <strong>TELL ME ABOUT THE PLACES YOU AVOID GOING WITH YOUR KIDS.</strong><br><br>
+    <strong>TELL ME ABOUT THE PLACES YOU DISLIKE GOING WITH YOUR KIDS.</strong><br><br>
     <div style="text-align:left; margin:10px 0; padding-left:0;">
-      <p style="margin-bottom:14px;">Click on the places that you go with your kids that make you feel exhausted, drained, or stressed (select as many as you want).</p>
+      <p style="margin-bottom:14px;">Click on the places that you go with your kids that make you feel <strong>drained, tired, or bored<strong> (select as many as you want).</p>
       <p style="margin-bottom:14px;">Your markers are <strong>automatically saved</strong> as you place them. If you delete them, the information will be removed from the survey.</p>
       <p style="margin-bottom:14px;">Click on markers to add comments, delete them, or drag to move them.</p>
       <p style="margin-bottom:0px; font-style:italic; color:#666;">Once finished, just click "Next" in the survey.</p>
@@ -418,284 +418,188 @@
   </div>
 
   <script>
-    var map = L.map('map'); //Initialize the map
+  var map = L.map('map'); //Initialize the map
 
-    // Add basemap with labels for landmarks, schools, playgrounds
-    var OpenStreetMap_Mapnik = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      minZoom: 4,
-      maxZoom: 19,
-      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
-    
-    map.setView([42.37083185, -71.106332908], 16);
-
-    var marker, lat, lng;
-
-    // Markers array and counter
-    markers = []
-    markerComments = {} // Store comments for each marker
-    i = -1
-    
-    current_marker_type = "two" // Default to avoid marker
-    
-    // Custom map marker
-    var dislike = L.icon({
-      name: 'Dislike',
-      iconUrl: 'icons/avoid2.png',
-      iconSize: [60, 40], 
-      iconAnchor: [30, 20],
-      popupAnchor: [0, -20] 
-    });
-
-    function iconpicker(type_number){
-      if(type_number == "two"){
-        return dislike
-      }
-     // Fallback
-  return dislike;
-}
-// Test icon is defined (check console)
-console.log('Dislike icon defined:', dislike);
-console.log('Icon picker works:', iconpicker("two"));
-
-    // SEND DATA TO QUALTRICS - called automatically when data changes
-    function sendDataToQualtrics() {
-      var coordinates = [];
-      var comments = [];
-      
-      // Collect all current markers
-      for(_i = 0; _i < markers.length; _i++){
-        if(markers[_i]) {
-          var latlng = markers[_i].getLatLng();
-          coordinates.push({
-            lat: latlng.lat,
-            lng: latlng.lng,
-            id: _i
-          });
-          
-          // Get comment for this marker
-          var comment = markerComments[_i] || "";
-          comments.push({
-            id: _i,
-            comment: comment
-          });
-        }
-      }
-      
-      // Send to parent window (Qualtrics)
-      window.parent.postMessage({
-        type: 'avoid_map_data',
-        coordinates: JSON.stringify(coordinates),
-        comments: JSON.stringify(comments),
-        marker_count: coordinates.length,
-        timestamp: new Date().toISOString()
-      }, '*');
-      
-      console.log('✓ Data sent to Qualtrics:', {
-        markers: coordinates.length,
-        coordinates: coordinates,
-        comments: comments
-      });
-      
-      // Show visual confirmation
-      showSavedIndicator();
-    }
-
-    // Show "Saved" indicator briefly
-    function showSavedIndicator() {
-      var indicator = document.getElementById('statusIndicator');
-      indicator.style.display = 'block';
-      setTimeout(function() {
-        indicator.style.display = 'none';
-      }, 1500);
-    }
-
-    // When user clicks delete this marker
-    function destroy_self(this_marker_id){
-      map.removeLayer(markers[this_marker_id])
-      delete markerComments[this_marker_id];
-      markers[this_marker_id] = null; // Mark as deleted
-      
-      // Auto-send updated data
-      sendDataToQualtrics();
-    }
-
-    // When user clicks "clear markers" button
-    function destroy_all(){
-      for(_i = 0; _i < markers.length; _i++){
-        if(markers[_i]) {
-          map.removeLayer(markers[_i])
-        }
-      }
-      markers = [];
-      markerComments = {};
-      
-      // Auto-send cleared data
-      sendDataToQualtrics();
-    }
-
-    // Save comment for a marker
-    function saveComment(marker_id) {
-      var commentText = document.getElementById('comment_' + marker_id).value;
-      markerComments[marker_id] = commentText;
-      console.log('Saved comment for marker ' + marker_id + ': ' + commentText);
-      
-      // Auto-send updated data with comment
-      sendDataToQualtrics();
-    }
-
-    // collectdata happens when the map is clicked on a point.
-    function collectData(e) {
-      i += 1
-      this_marker_id = i
-      lat = e.latlng.lat;
-      lng = e.latlng.lng;
-      type = current_marker_type
-
-      // Create popup with text input
-      var popup_text = 
-        '<div style="min-width:200px;">' +
-        '<label class="popup-label">Tell me why you dislike it:</label>' +
-        '<textarea id="comment_' + this_marker_id + '" class="reason-input" rows="3" placeholder="Type your reason here..."></textarea>' +
-        '<button class="btn btn-sm center-block" style="background-color:#2ea6de; color:#fff; margin-top:5px;" onclick="saveComment(' + this_marker_id + ')">Save Comment</button>' +
-        '<hr style="margin:10px 0;">' +
-        '<button class="btn btn-sm center-block" style="background-color:#ec9035; color:#fff;" onclick="destroy_self(' + this_marker_id + ')">Delete Marker</button>' +
-        '</div>';
-
-      // Add marker to markers Array
-      markers[i] = L.marker(e.latlng, {
-        draggable: true,
-        icon: iconpicker(type),
-        type_of_marker: type,
-        this_marker_id: this_marker_id
-      }).addTo(map)
-      .bindPopup(popup_text, {maxWidth:300})
-      .openPopup();
-
-      // AUTO-SEND when marker is added
-      sendDataToQualtrics();
-
-      // Update when marker is dragged
-      markers[i].on('dragend', function(event) {
-        // AUTO-SEND when marker is moved
-        sendDataToQualtrics();
-      });
-    }
-
-    // When you click, fire above collectdata function
-    map.on('click', function(e) {
-      collectData(e);
-    });
-
-    // Close instructions
-    $(".theX").click(function(){
-      $("#instructions").hide();
-    });
-    // Mobile-specific improvements
-(function() {
+  // Add basemap
+  var OpenStreetMap_Mapnik = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    minZoom: 4,
+    maxZoom: 19,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
   
-  // Detect if mobile
-  var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  map.setView([42.37083185, -71.106332908], 16);
+
+  // CRITICAL: Force map to recalculate size in iframe
+  setTimeout(function() {
+    map.invalidateSize();
+    console.log('Map size invalidated - attempt 1');
+  }, 100);
+
+  setTimeout(function() {
+    map.invalidateSize();
+    console.log('Map size invalidated - attempt 2');
+  }, 500);
+
+  setTimeout(function() {
+    map.invalidateSize();
+    console.log('Map size invalidated - attempt 3');
+  }, 1500);
+
+  // Invalidate on window resize
+  window.addEventListener('resize', function() {
+    map.invalidateSize();
+  });
+
+  var marker, lat, lng;
+
+  // Markers array and counter
+  markers = []
+  markerComments = {}
+  i = -1
   
-  if(isMobile) {
-    console.log('Mobile device detected');
+  current_marker_type = "two"
+  
+  // Custom map marker
+  var dislike = L.icon({
+    name: 'Dislike',
+    iconUrl: 'icons/avoid2.png',
+    iconSize: [60, 40], 
+    iconAnchor: [30, 20],
+    popupAnchor: [0, -20] 
+  });
+
+  function iconpicker(type_number){
+    if(type_number == "two"){
+      return dislike
+    }
+  }
+
+  // SEND DATA TO QUALTRICS
+  function sendDataToQualtrics() {
+    var coordinates = [];
+    var comments = [];
     
-    // Adjust map controls for mobile
-    map.zoomControl.setPosition('bottomright');
-    
-    // Disable drag on instruction box close for mobile
-    // (prevents accidental clicks while scrolling)
-    
-    // Auto-close popup when clicking elsewhere on map
-    map.on('click', function(e) {
-      // Only if not clicking on a marker
-      if(!e.originalEvent.target.closest('.leaflet-marker-icon')) {
-        map.closePopup();
+    for(_i = 0; _i < markers.length; _i++){
+      if(markers[_i]) {
+        var latlng = markers[_i].getLatLng();
+        coordinates.push({
+          lat: latlng.lat,
+          lng: latlng.lng,
+          id: _i
+        });
+        
+        var comment = markerComments[_i] || "";
+        comments.push({
+          id: _i,
+          comment: comment
+        });
       }
+    }
+    
+    window.parent.postMessage({
+      type: 'dislike_map_data',
+      coordinates: JSON.stringify(coordinates),
+      comments: JSON.stringify(comments),
+      marker_count: coordinates.length,
+      timestamp: new Date().toISOString()
+    }, '*');
+    
+    console.log('✓ Data sent to Qualtrics:', {
+      markers: coordinates.length,
+      coordinates: coordinates,
+      comments: comments
     });
     
-    // Reduce marker drag threshold on mobile (easier to drag)
-    map.on('layeradd', function(e) {
-      if(e.layer.dragging) {
-        e.layer.dragging._draggable._updatePosition = function() {
-          // Custom drag behavior for smoother mobile experience
-          L.Draggable.prototype._updatePosition.call(this);
-        };
+    showSavedIndicator();
+  }
+
+  function showSavedIndicator() {
+    var indicator = document.getElementById('statusIndicator');
+    indicator.style.display = 'block';
+    setTimeout(function() {
+      indicator.style.display = 'none';
+    }, 1500);
+  }
+
+  function destroy_self(this_marker_id){
+    map.removeLayer(markers[this_marker_id])
+    delete markerComments[this_marker_id];
+    markers[this_marker_id] = null;
+    sendDataToQualtrics();
+  }
+
+  function destroy_all(){
+    for(_i = 0; _i < markers.length; _i++){
+      if(markers[_i]) {
+        map.removeLayer(markers[_i])
       }
+    }
+    markers = [];
+    markerComments = {};
+    sendDataToQualtrics();
+  }
+
+  function saveComment(marker_id) {
+    var commentText = document.getElementById('comment_' + marker_id).value;
+    markerComments[marker_id] = commentText;
+    console.log('Saved comment for marker ' + marker_id + ': ' + commentText);
+    sendDataToQualtrics();
+  }
+
+  // Collect data when map is clicked
+  function collectData(e) {
+    i += 1
+    this_marker_id = i
+    lat = e.latlng.lat;
+    lng = e.latlng.lng;
+    type = current_marker_type
+
+    console.log('Marker placed at:', lat, lng); // Debug log
+
+    var popup_text = 
+      '<div style="min-width:200px;">' +
+      '<label class="popup-label">Tell me why you dislike it:</label>' +
+      '<textarea id="comment_' + this_marker_id + '" class="reason-input" rows="3" placeholder="Type your reason here..."></textarea>' +
+      '<button class="btn btn-sm center-block" style="background-color:#26a674; color:#fff; margin-top:5px;" onclick="saveComment(' + this_marker_id + ')">Save Comment</button>' +
+      '<hr style="margin:10px 0;">' +
+      '<button class="btn btn-sm center-block" style="background-color:#1f7a53; color:#fff;" onclick="destroy_self(' + this_marker_id + ')">Delete Marker</button>' +
+      '</div>';
+
+    markers[i] = L.marker(e.latlng, {
+      draggable: true,
+      icon: iconpicker(type),
+      type_of_marker: type,
+      this_marker_id: this_marker_id
+    }).addTo(map)
+    .bindPopup(popup_text, {maxWidth:300})
+    .openPopup();
+
+    sendDataToQualtrics();
+
+    markers[i].on('dragend', function(event) {
+      sendDataToQualtrics();
     });
   }
-  
-  // Adjust for orientation changes
-  window.addEventListener('orientationchange', function() {
+
+  // Listen for clicks
+  map.on('click', function(e) {
+    console.log('Map clicked!', e.latlng); // Debug log
+    collectData(e);
+  });
+
+  // Close instructions and ensure map is clickable
+  $(".theX").click(function(){
+    $("#instructions").hide();
     setTimeout(function() {
       map.invalidateSize();
+      console.log('Map invalidated after closing instructions');
     }, 100);
   });
-  
-  // Prevent iOS Safari from zooming on input focus
-  if(/iPad|iPhone|iPod/.test(navigator.userAgent)) {
-    var viewportMeta = document.querySelector('meta[name="viewport"]');
-    if(viewportMeta) {
-      viewportMeta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
-    }
-  }
-  
-})();
-  </script>
-<script>
-// Function to collect all map data
-function sendDataToParent() {
-    try {
-        // Collect your markers data
-        // Replace these with your actual data collection methods
-        var coordinates = []; // Array of marker coordinates
-        var comments = []; // Array of marker comments
-        var marker_count = 0; // Number of markers
-        
-        // If you're using Leaflet, something like this:
-        // markers.forEach(function(marker) {
-        //     var latlng = marker.getLatLng();
-        //     coordinates.push([latlng.lat, latlng.lng]);
-        //     comments.push(marker.comment || '');
-        //     marker_count++;
-        // });
-        
-        var mapData = {
-            type: 'love_map_data',
-            coordinates: coordinates,
-            comments: comments,
-            marker_count: marker_count
-        };
-        
-        console.log('Sending data to parent:', mapData);
-        window.parent.postMessage(mapData, '*');
-    } catch(e) {
-        console.error('Error sending data:', e);
-    }
-}
 
-// Listen for data requests from parent (Qualtrics)
-window.addEventListener('message', function(event) {
-    if(event.data && event.data.type === 'request_data') {
-        console.log('Data requested by parent');
-        sendDataToParent();
-    }
-});
-
-// Send data whenever a marker is added, moved, or commented on
-// Add this to your existing marker event handlers
-// For example:
-// map.on('click', function(e) {
-//     // Your existing code to add marker
-//     // ...
-//     // Then send data:
-//     sendDataToParent();
-// });
-
-// Send data every 5 seconds as backup
-setInterval(function() {
-    sendDataToParent();
-}, 5000);
+  // Debug: Log when map is ready
+  console.log('Map initialized and ready for clicks');
 </script>
+
 </body>
+
 </html>
