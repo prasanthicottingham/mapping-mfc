@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Participatory Mapping - Dislike</title>
+  <title>Participatory Mapping - Love</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta property="og:title" content="Leaflet and Google Form Participatory Mapping" />
   <meta property="og:type" content="website" />
@@ -497,7 +497,7 @@
     }
     
     window.parent.postMessage({
-      type: 'dislike_map_data',
+      type: 'love_map_data',
       coordinates: JSON.stringify(coordinates),
       comments: JSON.stringify(comments),
       marker_count: coordinates.length,
@@ -603,3 +603,4 @@
 </body>
 
 </html>
+
